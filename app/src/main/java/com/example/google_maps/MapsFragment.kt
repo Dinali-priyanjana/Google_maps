@@ -1,9 +1,7 @@
-
-import androidx.appcompat.app.AppCompatActivity
+import android.R
 import android.os.Bundle
-import com.example.google_maps.R
-
-
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Transformations.map
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -11,18 +9,35 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-internal class MapsActivity : AppCompatActivity(), OnMapReadyCallback
-{
+class MapsActivity : FragmentActivity(), OnMapReadyCallback {
+    private var mMap: GoogleMap? = null
 
-    private lateinit var mMap: GoogleMap
+    // below are the latitude and longitude
+    // of 4 different locations.
+    var kel = LatLng(35.290630, -118.995827)
+    var Ruhuna = LatLng(35.290630, -118.995827)
+    var Jaffna = LatLng(9.665280, 80.018520)
+    var Brisbane = LatLng(-27.470125, 153.021072)
 
+    // creating array list for adding all our locations.
+    private var locationArrayList: ArrayList<LatLng>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_maps)
+        setContentView(R.layout.)
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.title) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this)
+
+        // in below line we are initializing our array list.
+        locationArrayList = ArrayList()
+
+        // on below line we are adding our
+        // locations in our array list.
+        locationArrayList!!.add(kel)
+        locationArrayList!!.add(Ruhuna)
+        locationArrayList!!.add(Jaffna)
+        locationArrayList!!.add(Brisbane)
     }
 
     /**
@@ -36,14 +51,20 @@ internal class MapsActivity : AppCompatActivity(), OnMapReadyCallback
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        // inside on map ready method
+        // we will be displaying all our markers.
+        // for adding markers we are running for loop and
+        // inside that we are drawing marker on our map.
+        for (i in locationArrayList!!.indices) {
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions()
-            .position(sydney)
-            .title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            // below line is use to add marker to each location of our array list.
+            mMap!!.addMarker(MarkerOptions().position(locationArrayList!![i]).title("Marker"))
+
+            // below lin is use to zoom our camera on map.
+            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(18.0f))
+
+            // below line is use to move our camera to the specific location.
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(locationArrayList!![i]))
+        }
     }
 }
-
-      
