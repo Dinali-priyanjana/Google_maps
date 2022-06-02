@@ -1,7 +1,8 @@
-import android.R
+
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Transformations.map
+//import androidx.lifecycle.Transformations.map
+import com.example.google_maps.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,16 +18,16 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
     var kel = LatLng(35.290630, -118.995827)
     var Ruhuna = LatLng(35.290630, -118.995827)
     var Jaffna = LatLng(9.665280, 80.018520)
-    var Brisbane = LatLng(-27.470125, 153.021072)
+   // var Brisbane = LatLng(-27.470125, 153.021072)
 
     // creating array list for adding all our locations.
     private var locationArrayList: ArrayList<LatLng>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.)
+        setContentView(R.layout.fragment_maps)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.title) as SupportMapFragment?
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
 
         // in below line we are initializing our array list.
@@ -37,7 +38,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
         locationArrayList!!.add(kel)
         locationArrayList!!.add(Ruhuna)
         locationArrayList!!.add(Jaffna)
-        locationArrayList!!.add(Brisbane)
+       // locationArrayList!!.add(Brisbane)
     }
 
     /**
