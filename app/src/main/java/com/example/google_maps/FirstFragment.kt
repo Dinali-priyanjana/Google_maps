@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.google_maps.databinding.FragmentFirstBinding
 
+
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
@@ -40,5 +41,6 @@ class FirstFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
     }
 }
