@@ -13,8 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapsActivity : FragmentActivity(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
 
-    // below are the latitude and longitude
-    // of 4 different locations.
+
     var kel = LatLng(35.290630, -118.995827)
     var Ruhuna = LatLng(35.290630, -118.995827)
     var Jaffna = LatLng(9.665280, 80.018520)
