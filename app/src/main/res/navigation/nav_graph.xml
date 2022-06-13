@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/MapsFragment">
+    app:startDestination="@id/map">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -11,48 +11,17 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
-        <action
-            android:id="@+id/action_FirstFragment_to_MapsFragment"
-            app:destination="@id/MapsFragment" />
-        <action
-            android:id="@+id/action_FirstFragment_to_MapsFragment2"
-            app:destination="@id/MapsFragment" />
-        <action
-            android:id="@+id/action_FirstFragment_self"
-            app:destination="@id/FirstFragment" />
-        <action
-            android:id="@+id/action_FirstFragment_to_MapsFragment3"
-            app:destination="@id/MapsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.google_maps.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/MapsFragment"
+        android:id="@+id/map"
         android:name="com.example.google_maps.MapsFragment"
         android:label="Maps fragment"
         tools:layout="@layout/fragment_maps">
 
 
-        <action
-            android:id="@+id/action_MapsFragment_self"
-            app:destination="@id/MapsFragment" />
-        <action
-            android:id="@+id/action_MapsFragment_self2"
-            app:destination="@id/MapsFragment" />
-        <action
-            android:id="@+id/action_MapsFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-        <action
-            android:id="@+id/action_MapsFragment_self3"
-            app:destination="@id/MapsFragment" />
+
     </fragment>
 
 </navigation>
