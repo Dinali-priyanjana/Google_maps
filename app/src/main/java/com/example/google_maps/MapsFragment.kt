@@ -1,8 +1,18 @@
+package com.example.Google_maps
+
+import androidx.fragment.app.Fragment
 
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
-//import androidx.lifecycle.Transformations.map
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.setFragmentResultListener
+import com.example.Google_maps.apis.University
+
 import com.example.google_maps.R
+
+
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -10,61 +20,52 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapsActivity : FragmentActivity(), OnMapReadyCallback {
-    private var mMap: GoogleMap? = null
+class MapsFragment : Fragment() {
+
+    private val callback = OnMapReadyCallback { googleMap ->
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        var loc = LatLng(-34.0, 151.0)
+        var name = "unknown"
+        setFragmentResultListener("requestKey"){_,bundle->
+            name = bundle.get("selectedNameKey") as String
+            val data = bundle.get("data") as List<University>
+
+            data.forEach {
+                if(it.name == name){
+                    loc = it.coordinates
+//                    Toast.makeText(this.context, "Clicked on ${it.toString()}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+        }
+        googleMap.setMinZoomPreference(17.0f)
+        googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+        googleMap.addMarker(MarkerOptions().position(loc).title("Marker in $name"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc))
+        (activity as AppCompatActivity).supportActionBar?.title = name
 
 
-    var kel = LatLng(35.290630, -118.995827)
-    var Ruhuna = LatLng(35.290630, -118.995827)
-    var Jaffna = LatLng(9.665280, 80.018520)
-   // var Brisbane = LatLng(-27.470125, 153.021072)
-
-    // creating array list for adding all our locations.
-    private var locationArrayList: ArrayList<LatLng>? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_maps)
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment!!.getMapAsync(this)
-
-        // in below line we are initializing our array list.
-        locationArrayList = ArrayList()
-
-        // on below line we are adding our
-        // locations in our array list.
-        locationArrayList!!.add(kel)
-        locationArrayList!!.add(Ruhuna)
-        locationArrayList!!.add(Jaffna)
-       // locationArrayList!!.add(Brisbane)
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        // inside on map ready method
-        // we will be displaying all our markers.
-        // for adding markers we are running for loop and
-        // inside that we are drawing marker on our map.
-        for (i in locationArrayList!!.indices) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_maps, container, false)
+    }
 
-            // below line is use to add marker to each location of our array list.
-            mMap!!.addMarker(MarkerOptions().position(locationArrayList!![i]).title("Marker"))
-
-            // below lin is use to zoom our camera on map.
-            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(18.0f))
-
-            // below line is use to move our camera to the specific location.
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(locationArrayList!![i]))
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
     }
 }
